@@ -1,11 +1,10 @@
 package com.music.music_store.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
@@ -28,15 +27,12 @@ public class Category extends BaseEntity {
     @PrePersist
     protected void prePersist() {
         this.category = this.name.replaceAll(" ", "_").toUpperCase();
+        this.slug = this.name.replaceAll(" ", "_").toLowerCase(); // Set slug on persist
     }
 
     @PreUpdate
     protected void preUpdate() {
         this.category = this.name.replaceAll(" ", "_").toUpperCase();
-    }
-
-    @PreUpdate
-    private void generateSlug() {
-        this.slug = this.name.replaceAll(" ", "_").toLowerCase();
+        this.slug = this.name.replaceAll(" ", "_").toLowerCase(); // Update slug on update
     }
 }

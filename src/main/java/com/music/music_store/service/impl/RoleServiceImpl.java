@@ -13,7 +13,7 @@ import com.music.music_store.dto.res.RoleRes;
 import com.music.music_store.entity.Role;
 import com.music.music_store.repository.RoleRepository;
 import com.music.music_store.service.RoleService;
-import com.music.music_store.util.LogUtil;
+// import com.music.music_store.util.LogUtil;
 import com.music.music_store.util.MapperUtil;
 import com.music.music_store.util.SortUtil;
 import com.music.music_store.util.ValidationUtil;
@@ -31,15 +31,30 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
     private final ValidationUtil validationUtil;
 
+    // @PostConstruct
+    // public void init() {
+    // if (!roleRepository.existsByName("SuperAdmin")) {
+    // Role role = Role.builder()
+    // .name("SuperAdmin")
+    // .build();
+    // roleRepository.save(role);
+    // LogUtil.info("SuperAdmin role created.");
+    // } else {
+    // LogUtil.info("SuperAdmin role already exists.");
+    // }
+    // }
+
     @PostConstruct
     public void init() {
-        if (roleRepository.existsByName("SuperAdmin"))
-            return;
-
-        Role role = Role.builder()
-                .name("SuperAdmin")
-                .build();
-        roleRepository.save(role);
+        if (!roleRepository.existsByName("SuperAdmin")) {
+            Role role = Role.builder()
+                    .name("SuperAdmin")
+                    .build();
+            roleRepository.save(role);
+            // LogUtil.info("SuperAdmin role created.");
+        } else {
+            // LogUtil.info("SuperAdmin role already exists.");
+        }
     }
 
     @Override
@@ -64,44 +79,44 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role getOne(String id) {
         return roleRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role Not Found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role Not Found wokwok"));
     }
 
     @Override
-    public Role getByName(String id) {
-        return roleRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role Not Found"));
+    public Role getByName(String name) {
+        return roleRepository.findByName(name)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role Not Found wakwak"));
     }
 
     @Override
     public RoleRes create(RoleReq req) {
-        LogUtil.info("creating role");
+        // LogUtil.info("creating role");
         validationUtil.validate(req);
         Role role = Role.builder()
                 .name(req.getName())
                 .build();
         roleRepository.saveAndFlush(role);
-        LogUtil.info("finished creating role");
+        // LogUtil.info("finished creating role");
         return MapperUtil.toRoleRes(role);
     }
 
     @Override
     public RoleRes update(String id, RoleReq req) {
-        LogUtil.info("updating role");
+        // LogUtil.info("updating role");
         validationUtil.validate(req);
         Role role = getOne(id);
         role.setName(req.getName());
         roleRepository.saveAndFlush(role);
-        LogUtil.info("finished updating role");
+        // LogUtil.info("finished updating role");
         return MapperUtil.toRoleRes(role);
     }
 
     @Override
     public void delete(String id) {
-        LogUtil.info("deleting role");
+        // LogUtil.info("deleting role");
         Role role = getOne(id);
         role.setDeleted(!role.isDeleted());
         roleRepository.save(role);
-        LogUtil.info("finished deleting role");
+        // LogUtil.info("finished deleting role");
     }
 }

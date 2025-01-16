@@ -11,5 +11,5 @@ import com.music.music_store.entity.User;
 public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByUsername(String username);
 
-    boolean existByUsername(String username);
+    boolean existsByUsername(String username);
 }

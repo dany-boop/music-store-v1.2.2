@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Entity
 @Table(name = "product_detail")
-public class ProductDetail {
+public class ProductDetail extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;

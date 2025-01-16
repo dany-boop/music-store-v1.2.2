@@ -17,6 +17,10 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "t_transaction")
 public class Transaction extends BaseEntity {
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

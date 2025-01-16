@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
     @PostConstruct
     public void init() {
-        if (userRepository.existByUsername(ADMIN_USERNAME))
+        if (userRepository.existsByUsername(ADMIN_USERNAME))
             return;
         User user = User.builder()
                 .username(ADMIN_USERNAME)
