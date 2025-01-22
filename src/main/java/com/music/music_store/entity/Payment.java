@@ -2,9 +2,9 @@ package com.music.music_store.entity;
 
 import java.time.LocalDateTime;
 
-import com.music.music_store.constant.BlockChainStatus;
 import com.music.music_store.constant.PaymentMethod;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,6 +12,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -35,22 +36,12 @@ public class Payment extends BaseEntity {
     @Column(name = "payment_reference", unique = true, nullable = true)
     private String paymentReference;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "blockchain_status", length = 50)
-    private BlockChainStatus blockchainStatus;
-
-    @Column(name = "blockchain_tx_hash", unique = true, nullable = true)
-    private String blockchainTransactionHash;
-
     @Column(name = "amount", nullable = true)
     private Double amount;
 
     @Column(name = "payment_date", nullable = false)
     private LocalDateTime paymentDate;
 
-    @Column(name = "blockchain_submitted_at")
-    private LocalDateTime blockchainSubmittedAt;
-
-    @Column(name = "blockchain_confirmed_at")
-    private LocalDateTime blockchainConfirmedAt;
+    @OneToOne(mappedBy = "payment", cascade = CascadeType.ALL)
+    private BlockchainPayment blockchainPayment;
 }
